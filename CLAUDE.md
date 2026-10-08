@@ -26,6 +26,8 @@ Prefer simple, working and verified over complete or clever.
 | `docs/DECISIONS.md` | Decisions already made and known ambiguities. Do not re-decide these. |
 | `docs/PLAN.md` | Implementation phases. Work on one phase at a time. |
 | `docs/DATASET.md` | Only for the dataset-extension phase |
+| `docs/PROGRESS.md` | **First thing in every session** — current phase and loop state |
+| `docs/REVIEW_CHECKLIST.md` | Used by the reviewer; know what will be checked |
 
 ## Non-negotiable rules
 
@@ -75,19 +77,52 @@ python scripts/check_report.py           # writes reports/check-results.md (expe
 `MODEL_MODE` defaults to `replay`. Use `live` only when asked, or when a cache entry is missing and the
 user approves the call (free-tier quota).
 
-## How to work
+## How to work: the implement → test → review loop
 
-- Follow `docs/PLAN.md` phase by phase. At the end of each phase: run `pytest`, show the checkpoint
-  result, commit, then stop and wait for review before starting the next phase.
-- Small commits with descriptive messages. Commit changes to `CLAUDE.md`, `docs/`, `prompts/` and
-  `.claude/` **separately** from code — they are AI configuration whose history is part of the submission.
-- Prompts live in `prompts/` with the version in the filename (`extract-v1.md`). Changing a prompt means a
-  new file and a new `PROMPT_VERSION`; never edit a prompt that has produced cached responses.
-- After a significant instruction, generated component, or correction, append a short entry to
-  `ai-workflow/workflow-log.md` (instruction, what was produced, how it was checked, what was corrected).
-- Pin versions in `requirements.txt`. Say why before adding a dependency.
-- Do not start optional features (PDF input, export, decision history) until all five mandatory checks pass.
-- When unsure whether something is in scope, check `docs/SPEC.md`; if still unsure, ask.
+The main session is the **orchestrator**. It does not write application code itself. It delegates to two
+subagents in `.claude/agents/`:
+
+- `implementer` — implements one phase or fixes review findings. Never commits, never calls a model live.
+- `reviewer` — independent, read-only. Checks the diff against `docs/REVIEW_CHECKLIST.md`, the rules above
+  and the phase checkpoint. Returns `PASS` or `CHANGES_REQUESTED` with numbered findings.
+
+### Loop protocol (per phase)
+
+1. **Orient.** Read `docs/PROGRESS.md`. Continue the phase recorded there; otherwise take the next phase
+   from `docs/PLAN.md`.
+2. **Start.** Record the base commit (`git rev-parse HEAD`) and start time in PROGRESS.md.
+3. **Implement.** Call `implementer` with: phase number, round number, and any notes from the user.
+4. **Test gate.** Run `MODEL_MODE=replay pytest -q`. If red, send the failure output back to `implementer`.
+   After 3 failed test-fix attempts, stop and ask the user.
+5. **Review.** Call `reviewer` with: phase number, round number, base commit, and previous findings
+   (round 2+). Do **not** pass the implementer's reasoning or report — the review must be independent.
+6. **Save evidence.** Save the reviewer output verbatim to `ai-workflow/reviews/phase-<n>-round-<m>.md`.
+7. **Decide.**
+   - `CHANGES_REQUESTED` → send the blocker and major findings to `implementer` as the next round.
+     **Maximum 3 review rounds per phase.** After round 3, stop and report the open findings to the user.
+   - If the implementer disputes a finding, pass the dispute to the reviewer in the next round. If they
+     still disagree, ask the user.
+   - `PASS` → record minors under "Deferred minor findings" in PROGRESS.md and continue.
+8. **Commit.** First the code (`phase <n>: <summary>`), then review files, PROGRESS.md and workflow log
+   (`phase <n>: review evidence`).
+9. **Report and stop.** Update PROGRESS.md (status, final commit, rounds, finish time). Append to
+   `ai-workflow/workflow-log.md` if a review caught something real or a decision was made. Tell the user:
+   what was built, checkpoint result, review rounds and what they caught, deferred minors, time spent.
+   **Wait for approval before the next phase.**
+
+### Loop rules
+
+- **Phase 0 skips the reviewer** (setup only): implement → test gate → commit → report.
+- **Open questions:** if the implementer reports one, stop the loop and ask the user. Record the answer in
+  `docs/DECISIONS.md` (decision table, not "Open questions") before continuing.
+- **Live model calls** (`MODEL_MODE=live`) are made only by the orchestrator, only after the user approves,
+  and only for the steps PLAN.md names. Cached responses are committed with the phase.
+- **Config changes** (`CLAUDE.md`, `.claude/`, `docs/`, `prompts/`) are committed separately from code,
+  with a message saying what changed and why. Their history is part of the submission.
+- Prompts live in `prompts/` with the version in the filename. Changing a prompt means a new file and a new
+  `PROMPT_VERSION`; never edit a prompt that has produced cached responses.
+- Pin versions in `requirements.txt`. New dependencies need a one-line reason.
+- Do not start optional features until M1–M5 pass.
 
 ## Code style
 

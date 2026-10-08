@@ -1,0 +1,2 @@
+# Preserve original starter bytes across platforms and Git checkouts.
+data/inputs/** -text
