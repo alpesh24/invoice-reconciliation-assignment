@@ -1,0 +1,33 @@
+{
+  "cache_key": "f6ae93f9386d0350f662d373608146b2243f00beeefb1a485096e8ac30001bff",
+  "provider": "gemini",
+  "model": "gemini-2.5-flash",
+  "prompt_version": "note-v1",
+  "created_at": "2026-10-08T21:19:33.973044+00:00",
+  "payload_sha256": "964a674d5f6cc27456aaf1804bb66713655e84d1d896fd857b169cd9c6429a50",
+  "payload": {
+    "billed": "$100.00",
+    "difference": null,
+    "duplicate_of": "clean",
+    "expected": null,
+    "findings": [
+      {
+        "code": "duplicate_invoice",
+        "detail": {
+          "original": "clean"
+        },
+        "line_no": null,
+        "meaning": "Same supplier and invoice number as an earlier invoice"
+      }
+    ],
+    "invoice": {
+      "file_id": "duplicate",
+      "invoice_number": "INV-1",
+      "po_id": "PO-1",
+      "status": "duplicate",
+      "supplier_id": "S1"
+    },
+    "lines": []
+  },
+  "text": "DRAFT — Invoice INV-1 from supplier S1 for PO PO-1. This document is marked as duplicate. It has the same supplier and invoice number as the earlier processed document named clean."
+}

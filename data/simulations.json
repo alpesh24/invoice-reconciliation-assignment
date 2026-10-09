@@ -1,1 +1,18 @@
-{}
+{
+  "correction": {
+    "kind": "replace_raw",
+    "note": "Simulated misread: the image shows PO-5, the simulated extraction reads PO-5 as PO-S (5/S confusion). All other fields are correct.",
+    "raw": {
+      "invoice_number": "INV-12",
+      "supplier_id": "S1",
+      "po_id": "PO-S",
+      "currency": "USD",
+      "lines": [
+        {"sku": "HUB-3", "description": null, "quantity": "6", "unit_price": "45.00", "line_total": "270.00"},
+        {"sku": "CAB-1", "description": null, "quantity": "2", "unit_price": "20.00", "line_total": "40.00"}
+      ],
+      "invoice_total": "310.00",
+      "warnings": []
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "cache_key": "f504edde43a6a87306ee7193f6e539ce3b480a73b8a5b3a64a172ab8d21d1806",
+  "provider": "gemini",
+  "model": "gemini-2.5-flash",
+  "prompt_version": "extract-v1",
+  "created_at": "2026-10-08T18:05:26.362568+00:00",
+  "image_sha256": "54675ae6c067b8b9c00825c43692f4e408de546aadf0cce04fa217f3b73be7ef",
+  "file_id": "missing-reference",
+  "raw_text": "{\"invoice_number\": \"INV-3\", \"supplier_id\": \"S1\", \"po_id\": null, \"currency\": \"USD\", \"lines\": [{\"sku\": \"CAB-1\", \"description\": null, \"quantity\": \"5\", \"unit_price\": \"20.00\", \"line_total\": \"100.00\"}], \"invoice_total\": \"100.00\", \"warnings\": [\"po_id is missing\"]}",
+  "parsed": {
+    "invoice_number": "INV-3",
+    "supplier_id": "S1",
+    "po_id": null,
+    "currency": "USD",
+    "lines": [
+      {
+        "sku": "CAB-1",
+        "description": null,
+        "quantity": "5",
+        "unit_price": "20.00",
+        "line_total": "100.00"
+      }
+    ],
+    "invoice_total": "100.00",
+    "warnings": [
+      "po_id is missing"
+    ]
+  }
+}

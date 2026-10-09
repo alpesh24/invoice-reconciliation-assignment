@@ -1,1 +1,24 @@
-null
+{
+  "purchase_orders": [
+    {"po_id": "PO-3", "supplier_id": "S1", "lines": [
+      {"sku": "CAB-1", "quantity": 10, "unit_cents": 2000},
+      {"sku": "ADP-2", "quantity": 4, "unit_cents": 1500}]},
+    {"po_id": "PO-4", "supplier_id": "S2", "lines": [
+      {"sku": "HUB-3", "quantity": 3, "unit_cents": 4500},
+      {"sku": "CAB-1", "quantity": 6, "unit_cents": 1800}]},
+    {"po_id": "PO-5", "supplier_id": "S1", "lines": [
+      {"sku": "HUB-3", "quantity": 6, "unit_cents": 4500},
+      {"sku": "CAB-1", "quantity": 2, "unit_cents": 2000}]}
+  ],
+  "receipts": [
+    {"receipt_id": "RC-3", "po_id": "PO-3", "lines": [
+      {"sku": "CAB-1", "quantity": 10},
+      {"sku": "ADP-2", "quantity": 4}]},
+    {"receipt_id": "RC-4", "po_id": "PO-4", "lines": [
+      {"sku": "HUB-3", "quantity": 3},
+      {"sku": "CAB-1", "quantity": 4}]},
+    {"receipt_id": "RC-5", "po_id": "PO-5", "lines": [
+      {"sku": "HUB-3", "quantity": 6},
+      {"sku": "CAB-1", "quantity": 2}]}
+  ]
+}

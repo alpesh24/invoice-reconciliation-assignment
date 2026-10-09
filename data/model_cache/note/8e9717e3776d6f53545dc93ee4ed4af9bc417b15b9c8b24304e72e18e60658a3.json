@@ -1,0 +1,31 @@
+{
+  "cache_key": "8e9717e3776d6f53545dc93ee4ed4af9bc417b15b9c8b24304e72e18e60658a3",
+  "provider": "gemini",
+  "model": "gemini-2.5-flash",
+  "prompt_version": "note-v1",
+  "created_at": "2026-10-09T09:27:31.723465+00:00",
+  "payload_sha256": "6dca0442d56115c879a3202789e12dde957cb47ecc52b3bb9192255e016aa040",
+  "payload": {
+    "billed": "$310.00",
+    "difference": null,
+    "duplicate_of": null,
+    "expected": null,
+    "findings": [
+      {
+        "code": "unknown_po",
+        "detail": {},
+        "line_no": null,
+        "meaning": "No purchase order with this PO id"
+      }
+    ],
+    "invoice": {
+      "file_id": "correction",
+      "invoice_number": "INV-12",
+      "po_id": "PO-S",
+      "status": "unresolved",
+      "supplier_id": "S1"
+    },
+    "lines": []
+  },
+  "text": "DRAFT — Invoice INV-12 from supplier S1, referencing PO-S, has an unresolved status. The PO reference PO-S could not be matched. No expected amount was calculated for this invoice. The billed amount is $310.00."
+}

@@ -4,7 +4,7 @@ Work one phase at a time. At the end of each phase: run `pytest`, show the check
 append to `ai-workflow/workflow-log.md` if something notable happened, and **stop for review**.
 Times are a budget, not a target; total ≈ 8 h. If a phase overruns, say so and propose what to cut.
 
-## Phase 0 — Setup (≈ 15 min)
+## Phase 0 — Setup
 
 - Create the layout from `ARCHITECTURE.md`. Starter files are already in `data/inputs/`; do not touch them.
 - `requirements.txt` (pinned): `google-genai`, `pydantic>=2`, `streamlit`, `pillow`, `python-dotenv`, `pytest`.
@@ -15,7 +15,7 @@ Times are a budget, not a target; total ≈ 8 h. If a phase overruns, say so and
 **Checkpoint:** `pip install -r requirements.txt` works; `pytest` runs (0 tests is fine); git initialized,
 first commit.
 
-## Phase 1 — Core domain, no model (≈ 1.5 h)
+## Phase 1 — Core domain, no model
 
 - `models.py`, `money.py`, `reference.py` (flat + lines formats), `normalize.py`, `matching.py`,
   `reconcile.py` — pure functions.
@@ -27,7 +27,7 @@ first commit.
 **Checkpoint:** all four seed results reproduced from structured records, without any model call.
 This proves the business logic independently of extraction.
 
-## Phase 2 — Extraction (≈ 1.25 h)
+## Phase 2 — Extraction
 
 - `prompts/extract-v1.md`; `extraction/` package: Gemini provider, cache, replay, simulations,
   `SIMULATED_FAILURES`.
@@ -40,7 +40,7 @@ This proves the business logic independently of extraction.
 **Checkpoint:** with `GEMINI_API_KEY` unset and `MODEL_MODE=replay`, extraction of all seed images
 works from cache.
 
-## Phase 3 — Storage, pipeline, CLI (≈ 1 h)
+## Phase 3 — Storage, pipeline, CLI
 
 - `storage.py` (atomic writes), `pipeline.py`, `cli.py` (`run`, `reconcile`, `reset --yes`).
 - Corrections: add a correction → re-normalize → reconcile whole batch → save. Existing corrections and
@@ -50,7 +50,7 @@ works from cache.
 
 **Checkpoint:** `python -m invoice_recon.cli run` in replay mode produces state matching seed expectations.
 
-## Phase 4 — UI (≈ 1.25 h)
+## Phase 4 — UI
 
 - Queue, invoice detail, summary as described in `ARCHITECTURE.md`.
 - Correction form → save → rerun → reload. Provenance badges. Review status and comment.
@@ -58,7 +58,7 @@ works from cache.
 **Checkpoint:** manual walkthrough: filter by status, open wrong-price, correct a field, restart Streamlit,
 correction still visible. Screenshot or short description in the workflow log.
 
-## Phase 5 — Notes and insight (≈ 45 min)
+## Phase 5 — Notes and insight
 
 - `prompts/note-v1.md`, `prompts/insight-v1.md`, `notes.py` with number guard, `insights.py` with
   deterministic aggregates and fallback text. Live run once (ask first), then cached.
@@ -66,7 +66,7 @@ correction still visible. Screenshot or short description in the workflow log.
 
 **Checkpoint:** every non-reconciled seed invoice has a guarded draft note in replay mode.
 
-## Phase 6 — Dataset extension (≈ 45 min)
+## Phase 6 — Dataset extension
 
 Follow `docs/DATASET.md` and `.claude/skills/generate-assignment-data/SKILL.md`.
 
@@ -78,7 +78,7 @@ Follow `docs/DATASET.md` and `.claude/skills/generate-assignment-data/SKILL.md`.
 
 **Checkpoint:** user has confirmed the five reference cases; expected results file committed.
 
-## Phase 7 — Checks and report (≈ 30 min)
+## Phase 7 — Checks and report
 
 - `scripts/check_report.py`: runs the pipeline in replay mode, compares with `data/expected/`, writes
   `reports/check-results.md` with M1–M5 rows plus the extra cases (expected, observed, pass/fail, notes).
@@ -87,12 +87,12 @@ Follow `docs/DATASET.md` and `.claude/skills/generate-assignment-data/SKILL.md`.
 
 **Checkpoint:** report committed; every failure explained.
 
-## Phase 8 — Documentation and AI configuration (≈ 45 min)
+## Phase 8 — Documentation and AI configuration
 
 - Complete `README.md` (all sections in the skeleton).
 - Rename and complete `ai-workflow/README.template.md` → `README.md` and `manifest.template.json` →
   `manifest.json`: Claude Code version and model, this `CLAUDE.md` and `docs/` (with commits), prompts,
-  skill, Gemini model and parameters, `not-used` for hooks/subagents/MCP, `.env.example` names, replay
+  skill, Gemini model and parameters, `used` for the `implementer`/`reviewer` subagents, `not-used` for hooks/MCP, `.env.example` names, replay
   command, workflow example from the log.
 - Time spent per phase in the README.
 

@@ -1,0 +1,68 @@
+{
+  "cache_key": "e8ed4383b23893e22c991e753262bd8a00fd4eb45e8dafce5b1032cbe6f492d7",
+  "provider": "gemini",
+  "model": "gemini-2.5-flash",
+  "prompt_version": "note-v1",
+  "created_at": "2026-10-09T09:27:43.652429+00:00",
+  "payload_sha256": "ebd4f4e947e5eb050ae3aade1d7715352ceef3e98beba59e31f62c506cb9a1fa",
+  "payload": {
+    "billed": "$243.00",
+    "difference": "$0.00",
+    "duplicate_of": null,
+    "expected": "$243.00",
+    "findings": [
+      {
+        "code": "qty_over_received",
+        "detail": {
+          "billed_qty": 6,
+          "received_qty": 4
+        },
+        "line_no": 2,
+        "meaning": "Billed quantity is above the received quantity"
+      },
+      {
+        "code": "short_receipt",
+        "detail": {
+          "ordered_qty": 6,
+          "received_qty": 4
+        },
+        "line_no": 2,
+        "meaning": "Received quantity is below the ordered quantity"
+      }
+    ],
+    "invoice": {
+      "file_id": "short-receipt",
+      "invoice_number": "INV-40",
+      "po_id": "PO-4",
+      "status": "discrepant",
+      "supplier_id": "S2"
+    },
+    "lines": [
+      {
+        "agreed_unit": "$45.00",
+        "billed": "$135.00",
+        "billed_qty": 3,
+        "billed_unit": "$45.00",
+        "difference": "$0.00",
+        "expected": "$135.00",
+        "line_no": 1,
+        "ordered_qty": 3,
+        "received_qty": 3,
+        "sku": "HUB-3"
+      },
+      {
+        "agreed_unit": "$18.00",
+        "billed": "$108.00",
+        "billed_qty": 6,
+        "billed_unit": "$18.00",
+        "difference": "$0.00",
+        "expected": "$108.00",
+        "line_no": 2,
+        "ordered_qty": 6,
+        "received_qty": 4,
+        "sku": "CAB-1"
+      }
+    ]
+  },
+  "text": "DRAFT — Invoice INV-40 from supplier S2 for PO-4 has a status of discrepant. The invoice bills $243.00, with an expected amount of $243.00 and an overall difference of $0.00. On line 2, the billed quantity of 6 is above the received quantity of 4. Also on line 2, the received quantity of 4 is below the ordered quantity of 6."
+}

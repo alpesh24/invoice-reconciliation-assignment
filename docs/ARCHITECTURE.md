@@ -156,8 +156,8 @@ Normalization rules:
 - Currency: must be `USD` if present; otherwise error.
 - Internal checks (flags, not errors): `quantity × unit_cents ≠ line_total_cents` → `line_total_mismatch`;
   `Σ line_total_cents ≠ invoice_total_cents` → `invoice_total_mismatch`.
-- **Validity:** the extraction is `invalid` if `invoice_number` is null, `lines` is empty, any line field
-  is null/unparsable, or `invoice_total` is null/unparsable. `supplier_id` and `po_id` may be null —
+- **Validity:** the extraction is `invalid` if `invoice_number` is null, `lines` is empty, any line field other
+  than `description` is null/unparsable (A12: description is optional), or `invoice_total` is null/unparsable. `supplier_id` and `po_id` may be null —
   that is a missing reference (→ `unresolved`), not invalid extraction.
 
 Corrections are applied to the **raw string** values before normalization, so corrected values pass exactly
@@ -260,7 +260,7 @@ never contribute. Duplicates carry `count_as_payable: false`.
 - **Number guard:** every `$X.XX` amount in the note must appear in the allowed set built from the
   findings. If not → `guard_passed=false`, shown as "needs review" in the UI. Notes are cached like
   extractions (key = findings hash + prompt version + model).
-- **Insight:** deterministic aggregation (findings by type, supplier, SKU; recoverable by type) produces
+- **Insight:** deterministic aggregation (findings by type, supplier, SKU) produces
   candidate observations. The model only words the strongest one (`prompts/insight-v1.md`). A plain
   deterministic fallback text is used if the model is unavailable.
 
@@ -273,7 +273,7 @@ never contribute. Duplicates carry `count_as_payable: false`.
   ordered / received / billed qty, agreed vs billed unit price, expected vs billed amount, difference;
   findings; draft note with guard status; correction form (field, new value, reason) → saves, reruns
   reconciliation for the batch, reloads; correction history; review status and comment.
-- **Summary:** counts, recoverable total by finding type, insight text.
+- **Summary:** counts, recoverable total and finding counts by type (per-type amounts are not attributed because no rule defines how), insight text.
 - The UI only reads and writes through `storage.py` / `pipeline.py`; no business logic in the UI.
 
 ## Configuration (`.env`)

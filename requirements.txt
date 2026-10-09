@@ -1,8 +1,15 @@
+# Gemini client for live extraction and note/insight drafting
 google-genai==2.29.0
+# Schemas (RawExtraction, NormalizedInvoice, state) and validation
 pydantic==2.13.5
+# Review UI
 streamlit==1.65.0
+# Image loading for the UI and model requests
 pillow==12.3.0
+# Load secrets and settings from .env
 python-dotenv==1.2.4
+# Test runner
 pytest==9.1.1
 
+# Editable install of the src/invoice_recon package (so `python -m invoice_recon.cli` works)
 -e .

@@ -1,0 +1,153 @@
+{
+  "description": "AI configuration used during the Invoice Reconciliation & Review exercise. No credentials. Earlier versions of changed files are kept as named snapshots in ai-workflow/snapshots/ and per-phase reviews in ai-workflow/reviews/.",
+  "categories": {
+    "development_tools_and_models": {
+      "status": "used",
+      "files": ["CLAUDE.md", "ai-workflow/workflow-log.md"],
+      "notes": "Claude Code version 2.1.295 (stated by the author) was the development tool: an orchestrator session plus two subagents. Orchestrator model: Sonnet 5.5, ID claude-sonnet-5-5 (stated by the author). The subagents are declared with model: inherit, i.e. they use the orchestrator model. No tool settings were changed beyond the project files listed here."
+    },
+    "plugins_and_extensions": {
+      "status": "not-used",
+      "files": [],
+      "notes": "No plugins or editor extensions were configured for this project."
+    },
+    "application_models_and_parameters": {
+      "status": "used",
+      "files": ["src/invoice_recon/config.py", "src/invoice_recon/extraction/gemini.py", "prompts/extract-v1.md", "prompts/note-v1.md", "prompts/insight-v1.md", "data/model_cache/"],
+      "notes": "Application integration: Gemini via google-genai 2.29.0, model gemini-2.5-flash (recorded in every cache entry), temperature 0, max_output_tokens 2048, timeout 60 s, 2 retries with backoff. Extraction uses response_mime_type application/json with response_schema RawExtraction; notes and insight use plain text. Saved real responses are in data/model_cache/ and are replayed without a key."
+    },
+    "skills": {
+      "status": "used",
+      "files": [".claude/skills/generate-assignment-data/SKILL.md", ".claude/skills/verify-reconciliation/SKILL.md"],
+      "notes": "generate-assignment-data (from the starter pack) guided the dataset phase (Phase 6). verify-reconciliation is kept unchanged but marked not-used: it refers to scripts/eval.py, a 98 percent accuracy gate and ruff/mypy, none of which exist in this project; it was not used by the loop."
+    },
+    "agent_instructions_and_subagents": {
+      "status": "used",
+      "files": ["CLAUDE.md", ".claude/agents/implementer.md", ".claude/agents/reviewer.md", "docs/PLAN.md", "docs/PROGRESS.md", "docs/REVIEW_CHECKLIST.md"],
+      "notes": "CLAUDE.md holds the non-negotiable rules and the implement-test-review loop. The implementer subagent writes code per phase (no live calls); the reviewer subagent is read-only and returns PASS or CHANGES_REQUESTED. Review outputs: ai-workflow/reviews/phase-<n>-round-<m>.md. docs/DECISIONS.md D6 was corrected in Phase 8 (it earlier said no subagents); see ai-workflow/snapshots/DECISIONS.md.phase-8.md."
+    },
+    "hooks_and_scripts": {
+      "status": "not-used",
+      "files": ["tools/baseline.py"],
+      "notes": "No Claude Code hooks are configured (there is no settings file and no hook script under .claude/). tools/baseline.py is a plain script run manually by the orchestrator to copy the project to .baseline/ for diff-based reviews instead of git; it is not triggered automatically."
+    },
+    "prompts_and_rules": {
+      "status": "used",
+      "files": ["prompts/extract-v1.md", "prompts/note-v1.md", "prompts/insight-v1.md", "CLAUDE.md", "docs/SPEC.md", "docs/ARCHITECTURE.md", "docs/DECISIONS.md", "docs/DATASET.md", "data/inputs/domain.md"],
+      "notes": "Application prompts are versioned by filename and the version is part of the cache key. Business rules come only from data/inputs/domain.md and docs/DECISIONS.md."
+    },
+    "tool_and_mcp_settings": {
+      "status": "not-used",
+      "files": [],
+      "notes": "No MCP servers or tool configuration are defined in the project (.claude/ contains only agents/ and skills/). User-level settings were not copied."
+    },
+    "permissions_and_environment_names": {
+      "status": "redacted",
+      "files": [".env.example", "ai-workflow/.env.example"],
+      "notes": "No project permission settings file exists (default permission prompts). Variable names only: GEMINI_API_KEY, GEMINI_MODEL, MODEL_MODE, USE_SIMULATIONS, SIMULATED_FAILURES. The real .env is excluded from the submission and gitignored."
+    }
+  },
+  "configuration_records": [
+    {
+      "name": "Project rules and loop",
+      "category": "agent_instructions_and_subagents",
+      "purpose": "Non-negotiable rules, implement-test-review loop",
+      "original_path_or_scope": "CLAUDE.md (project)",
+      "saved_path": "CLAUDE.md",
+      "version": "current files; earlier versions in ai-workflow/snapshots/ where listed; changes are recorded in ai-workflow/workflow-log.md",
+      "used_during": "all phases",
+      "status": "used",
+      "redactions": []
+    },
+    {
+      "name": "implementer subagent",
+      "category": "agent_instructions_and_subagents",
+      "purpose": "Implements one phase or fixes review findings",
+      "original_path_or_scope": ".claude/agents/implementer.md (project)",
+      "saved_path": ".claude/agents/implementer.md",
+      "version": "current files; earlier versions in ai-workflow/snapshots/ where listed; changes are recorded in ai-workflow/workflow-log.md",
+      "used_during": "phases 0-8",
+      "status": "used",
+      "redactions": []
+    },
+    {
+      "name": "reviewer subagent",
+      "category": "agent_instructions_and_subagents",
+      "purpose": "Independent read-only review against the checklist",
+      "original_path_or_scope": ".claude/agents/reviewer.md (project)",
+      "saved_path": ".claude/agents/reviewer.md",
+      "version": "current files; earlier versions in ai-workflow/snapshots/ where listed; changes are recorded in ai-workflow/workflow-log.md",
+      "used_during": "phases 1-7 reviewed (phase 0 skipped by design); phase 8 review round 1 returned CHANGES_REQUESTED, fixed in round 2; the round-1 result is in ai-workflow/reviews/phase-8-round-1.md",
+      "status": "used",
+      "redactions": []
+    },
+    {
+      "name": "generate-assignment-data skill",
+      "category": "skills",
+      "purpose": "Rules for extending the fictional starter data",
+      "original_path_or_scope": ".claude/skills/generate-assignment-data/SKILL.md (project)",
+      "saved_path": ".claude/skills/generate-assignment-data/SKILL.md",
+      "version": "current files; earlier versions in ai-workflow/snapshots/ where listed; changes are recorded in ai-workflow/workflow-log.md",
+      "used_during": "phase 6 (dataset extension)",
+      "status": "used",
+      "redactions": []
+    },
+    {
+      "name": "verify-reconciliation skill",
+      "category": "skills",
+      "purpose": "Checklist (pytest, scripts/eval.py, ruff/mypy) that does not match this project",
+      "original_path_or_scope": ".claude/skills/verify-reconciliation/SKILL.md (project)",
+      "saved_path": ".claude/skills/verify-reconciliation/SKILL.md",
+      "version": "current files; earlier versions in ai-workflow/snapshots/ where listed; changes are recorded in ai-workflow/workflow-log.md",
+      "used_during": "no recorded use; scripts/eval.py does not exist",
+      "status": "not-used",
+      "redactions": []
+    },
+    {
+      "name": "Application prompts",
+      "category": "prompts_and_rules",
+      "purpose": "Extraction, note and insight prompts for Gemini",
+      "original_path_or_scope": "prompts/ (project)",
+      "saved_path": "prompts/extract-v1.md, prompts/note-v1.md, prompts/insight-v1.md",
+      "version": "v1 of each (the version is in the filename and in every cache entry)",
+      "used_during": "phases 2 and 5 and the Phase 6 live run; replay afterwards",
+      "status": "used",
+      "redactions": []
+    },
+    {
+      "name": "Design docs",
+      "category": "prompts_and_rules",
+      "purpose": "Specification, architecture, decisions, plan, dataset and review checklist",
+      "original_path_or_scope": "docs/ (project)",
+      "saved_path": "docs/SPEC.md, docs/ARCHITECTURE.md, docs/DECISIONS.md, docs/PLAN.md, docs/DATASET.md, docs/REVIEW_CHECKLIST.md, docs/PROGRESS.md",
+      "version": "current files; earlier versions in ai-workflow/snapshots/ (ARCHITECTURE.md.phase3.md, ARCHITECTURE.md.phase4.md, DECISIONS.md.phase3.md, DECISIONS.phase7.md, DECISIONS.md.phase-8.md, PLAN.md.phase-8.md); each snapshot is the file before that phase's change, see workflow-log.md",
+      "used_during": "all phases",
+      "status": "used",
+      "redactions": []
+    },
+    {
+      "name": "Review baseline tool",
+      "category": "hooks_and_scripts",
+      "purpose": "Copies the project to .baseline/ so the reviewer can diff without git; run manually, not a hook",
+      "original_path_or_scope": "tools/baseline.py (project)",
+      "saved_path": "tools/baseline.py",
+      "version": "current files; earlier versions in ai-workflow/snapshots/ where listed; changes are recorded in ai-workflow/workflow-log.md",
+      "used_during": "phase loop",
+      "status": "not-used",
+      "redactions": []
+    },
+    {
+      "name": "Environment variable names",
+      "category": "permissions_and_environment_names",
+      "purpose": "Names of the settings the app reads",
+      "original_path_or_scope": ".env (local, not submitted)",
+      "saved_path": ".env.example, ai-workflow/.env.example",
+      "version": "current",
+      "used_during": "phases 0-8",
+      "status": "redacted",
+      "redactions": ["GEMINI_API_KEY value omitted", "values of GEMINI_MODEL, MODEL_MODE, USE_SIMULATIONS and SIMULATED_FAILURES omitted from the examples (the real .env is not included)"]
+    }
+  ],
+  "replay_command": "MODEL_MODE=replay python -m invoice_recon.cli run   (no API key needed; tests: MODEL_MODE=replay pytest -q)",
+  "workflow_example_path": "ai-workflow/workflow-log.md (entries '2026-10-08 20:30 - Phase 3 decision: A12 revised' and '2026-10-08 20:45 - Phase 3 storage, pipeline, CLI'); reviews in ai-workflow/reviews/"
+}

@@ -1,0 +1,31 @@
+{
+  "cache_key": "53b24360e62a329c5b3493a94f0312c94252dbf9d69c03764d13e3316eaf00bf",
+  "provider": "gemini",
+  "model": "gemini-2.5-flash",
+  "prompt_version": "note-v1",
+  "created_at": "2026-10-08T21:19:38.947056+00:00",
+  "payload_sha256": "0d71703f4f9ae52e0fd6c3bc88cf2f1bc0f167be0d0bf26a9f8efb7a14458ce6",
+  "payload": {
+    "billed": "$100.00",
+    "difference": null,
+    "duplicate_of": null,
+    "expected": null,
+    "findings": [
+      {
+        "code": "missing_reference",
+        "detail": {},
+        "line_no": null,
+        "meaning": "Supplier or PO reference is missing"
+      }
+    ],
+    "invoice": {
+      "file_id": "missing-reference",
+      "invoice_number": "INV-3",
+      "po_id": null,
+      "status": "unresolved",
+      "supplier_id": "S1"
+    },
+    "lines": []
+  },
+  "text": "DRAFT — Invoice INV-3 from supplier S1 has an unresolved status. A supplier or PO reference is missing, and no expected amount was calculated. The billed amount is $100.00."
+}

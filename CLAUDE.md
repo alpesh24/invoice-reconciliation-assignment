@@ -54,7 +54,8 @@ Prefer simple, working and verified over complete or clever.
    errors become visible per-invoice statuses.
 10. **Label provenance.** Every model response is marked `live`, `cached` or `simulated`. Never present
     simulated data as a real model response.
-11. **Secrets only from `.env`.** Never commit, log or print API keys. `.env` is gitignored.
+11. **Secrets only from `.env`.** Never log or print API keys. `.env` is listed in `.gitignore` (kept
+    for the user's later commit) and excluded from the review baseline.
 12. **Notes are drafts.** No wording that implies fraud or wrongdoing; a discrepancy is a difference to review.
 13. **English** for code, comments, UI, docs and generated notes.
 
@@ -90,11 +91,13 @@ subagents in `.claude/agents/`:
 
 1. **Orient.** Read `docs/PROGRESS.md`. Continue the phase recorded there; otherwise take the next phase
    from `docs/PLAN.md`.
-2. **Start.** Record the base commit (`git rev-parse HEAD`) and start time in PROGRESS.md.
+2. **Start.** If `.baseline/` does not exist, run `python tools/baseline.py save` (initial baseline). Then
+   check that `python tools/baseline.py status` is empty — leftover changes from an earlier phase mean
+   something was not approved; stop and ask. Record the start time in PROGRESS.md.
 3. **Implement.** Call `implementer` with: phase number, round number, and any notes from the user.
 4. **Test gate.** Run `MODEL_MODE=replay pytest -q`. If red, send the failure output back to `implementer`.
    After 3 failed test-fix attempts, stop and ask the user.
-5. **Review.** Call `reviewer` with: phase number, round number, base commit, and previous findings
+5. **Review.** Call `reviewer` with: phase number, round number, and previous findings
    (round 2+). Do **not** pass the implementer's reasoning or report — the review must be independent.
 6. **Save evidence.** Save the reviewer output verbatim to `ai-workflow/reviews/phase-<n>-round-<m>.md`.
 7. **Decide.**
@@ -103,22 +106,28 @@ subagents in `.claude/agents/`:
    - If the implementer disputes a finding, pass the dispute to the reviewer in the next round. If they
      still disagree, ask the user.
    - `PASS` → record minors under "Deferred minor findings" in PROGRESS.md and continue.
-8. **Commit.** First the code (`phase <n>: <summary>`), then review files, PROGRESS.md and workflow log
-   (`phase <n>: review evidence`).
-9. **Report and stop.** Update PROGRESS.md (status, final commit, rounds, finish time). Append to
+8. **Report and stop.** Update PROGRESS.md (status, rounds, finish time). Append to
    `ai-workflow/workflow-log.md` if a review caught something real or a decision was made. Tell the user:
    what was built, checkpoint result, review rounds and what they caught, deferred minors, time spent.
    **Wait for approval before the next phase.**
+9. **Save baseline on approval.** When the user approves, run `python tools/baseline.py save`. It copies
+   the project (without `.env`, `.venv/`, `data/state/`, caches) to `.baseline/`, which becomes the
+   baseline for the next phase.
 
 ### Loop rules
 
-- **Phase 0 skips the reviewer** (setup only): implement → test gate → commit → report.
+- **Phase 0 skips the reviewer** (setup only): implement → test gate → report → save baseline on approval.
+- **No git.** Do not run `git init` or any git command. The user will commit to their own repository when
+  everything is finished. `.baseline/` and `tools/baseline.py` replace git for reviews; `.baseline/` must
+  be listed in `.gitignore`.
 - **Open questions:** if the implementer reports one, stop the loop and ask the user. Record the answer in
   `docs/DECISIONS.md` (decision table, not "Open questions") before continuing.
 - **Live model calls** (`MODEL_MODE=live`) are made only by the orchestrator, only after the user approves,
-  and only for the steps PLAN.md names. Cached responses are committed with the phase.
-- **Config changes** (`CLAUDE.md`, `.claude/`, `docs/`, `prompts/`) are committed separately from code,
-  with a message saying what changed and why. Their history is part of the submission.
+  and only for the steps PLAN.md names. Cached responses are saved in `data/model_cache/` with the phase.
+- **Config changes** (`CLAUDE.md`, `.claude/`, `docs/`, `prompts/`): because there is no git history,
+  record every change in `ai-workflow/workflow-log.md` (what changed and why), and before changing a file
+  that has already been used, save a copy to `ai-workflow/snapshots/<file>.<phase>.md`. Earlier versions
+  are part of the submission.
 - Prompts live in `prompts/` with the version in the filename. Changing a prompt means a new file and a new
   `PROMPT_VERSION`; never edit a prompt that has produced cached responses.
 - Pin versions in `requirements.txt`. New dependencies need a one-line reason.

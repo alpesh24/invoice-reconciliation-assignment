@@ -1,0 +1,27 @@
+{
+  "cache_key": "d25b38907a7388a04621ce8a2c7af56c19e0c5776288df008a02785c61666461",
+  "provider": "gemini",
+  "model": "gemini-2.5-flash",
+  "prompt_version": "insight-v1",
+  "created_at": "2026-10-08T21:20:25.163729+00:00",
+  "payload_sha256": "3194715d59886c6ed1a0bb41004e4a29a90bd9552095fa55a3ab06e71025af24",
+  "payload": {
+    "batch": {
+      "discrepant_invoices": 3,
+      "recoverable_total": "$30.00"
+    },
+    "finding_code": "price_diff",
+    "invoices_affected": 2,
+    "meaning": "Billed unit price differs from the agreed PO price",
+    "occurrences": 2,
+    "top_sku": {
+      "occurrences": 1,
+      "sku": "ADP-2"
+    },
+    "top_supplier": {
+      "occurrences": 2,
+      "supplier_id": "S1"
+    }
+  },
+  "text": "\"Billed unit price differs from the agreed PO price\" was observed 2 times, affecting 2 invoices. The batch contained 3 discrepant invoices with a total recoverable amount of $30.00."
+}

@@ -1,0 +1,34 @@
+{
+  "cache_key": "9e2a624a2f3e8e698749297b0fcdc1728aab82a1337f07de3a8c2e308b67a878",
+  "provider": "gemini",
+  "model": "gemini-2.5-flash",
+  "prompt_version": "extract-v1",
+  "created_at": "2026-10-08T21:19:28.896480+00:00",
+  "image_sha256": "6dcd7c1a5dfca5c265355ffd8fddf925e9d74e03e86c294e1929ab82da7bcf63",
+  "file_id": "short-receipt",
+  "raw_text": "{\n  \"invoice_number\": \"INV-40\",\n  \"supplier_id\": \"S2\",\n  \"po_id\": \"PO-4\",\n  \"currency\": \"USD\",\n  \"lines\": [\n    {\n      \"sku\": \"HUB-3\",\n      \"description\": null,\n      \"quantity\": \"3\",\n      \"unit_price\": \"45.00\",\n      \"line_total\": \"135.00\"\n    },\n    {\n      \"sku\": \"CAB-1\",\n      \"description\": null,\n      \"quantity\": \"6\",\n      \"unit_price\": \"18.00\",\n      \"line_total\": \"108.00\"\n    }\n  ],\n  \"invoice_total\": \"243.00\",\n  \"warnings\": []\n}",
+  "parsed": {
+    "invoice_number": "INV-40",
+    "supplier_id": "S2",
+    "po_id": "PO-4",
+    "currency": "USD",
+    "lines": [
+      {
+        "sku": "HUB-3",
+        "description": null,
+        "quantity": "3",
+        "unit_price": "45.00",
+        "line_total": "135.00"
+      },
+      {
+        "sku": "CAB-1",
+        "description": null,
+        "quantity": "6",
+        "unit_price": "18.00",
+        "line_total": "108.00"
+      }
+    ],
+    "invoice_total": "243.00",
+    "warnings": []
+  }
+}

@@ -1,1 +1,207 @@
-null
+{
+  "note": "Computed by scripts/compute_expected.py from structured records; independent of src/.",
+  "reference_cases": {
+    "M1": "clean",
+    "M2": "wrong-price",
+    "M3": "duplicate",
+    "M4": "missing-reference",
+    "M5": "correction"
+  },
+  "cases": [
+    {
+      "file_id": "clean",
+      "origin": "seed",
+      "before_correction": {
+        "file_id": "clean",
+        "invoice_number": "INV-1",
+        "supplier_id": "S1",
+        "po_id": "PO-1",
+        "line_findings": {},
+        "expected_cents": 10000,
+        "billed_cents": 10000,
+        "difference_cents": 0,
+        "status": "reconciled",
+        "rule": "domain.md rule 3 and 4; DECISIONS C2, C3, C7, A1",
+        "recoverable_cents": 0,
+        "count_as_payable": true
+      }
+    },
+    {
+      "file_id": "duplicate",
+      "origin": "seed",
+      "before_correction": {
+        "file_id": "duplicate",
+        "invoice_number": "INV-1",
+        "supplier_id": "S1",
+        "po_id": "PO-1",
+        "line_findings": {},
+        "status": "duplicate",
+        "count_as_payable": false,
+        "duplicate_of": "clean",
+        "recoverable_cents": 0,
+        "rule": "domain.md rule 4; DECISIONS C4, C5, A6"
+      }
+    },
+    {
+      "file_id": "missing-reference",
+      "origin": "seed",
+      "before_correction": {
+        "file_id": "missing-reference",
+        "invoice_number": "INV-3",
+        "supplier_id": "S1",
+        "po_id": null,
+        "line_findings": {},
+        "status": "unresolved",
+        "reason": "missing_reference",
+        "rule": "domain.md rule 2; DECISIONS E6",
+        "expected_cents": null,
+        "billed_cents": 10000,
+        "difference_cents": null,
+        "recoverable_cents": 0,
+        "count_as_payable": true
+      }
+    },
+    {
+      "file_id": "wrong-price",
+      "origin": "seed",
+      "before_correction": {
+        "file_id": "wrong-price",
+        "invoice_number": "INV-2",
+        "supplier_id": "S1",
+        "po_id": "PO-2",
+        "line_findings": {
+          "CAB-1": [
+            "price_differs"
+          ]
+        },
+        "expected_cents": 10000,
+        "billed_cents": 12000,
+        "difference_cents": 2000,
+        "status": "discrepant",
+        "rule": "domain.md rule 3 and 4; DECISIONS C2, C3, C7, A1",
+        "recoverable_cents": 2000,
+        "count_as_payable": true
+      }
+    },
+    {
+      "file_id": "conflicting-supplier",
+      "origin": "generated",
+      "before_correction": {
+        "file_id": "conflicting-supplier",
+        "invoice_number": "INV-30",
+        "supplier_id": "S2",
+        "po_id": "PO-1",
+        "line_findings": {},
+        "status": "unresolved",
+        "reason": "conflicting_reference",
+        "rule": "domain.md rule 2; DECISIONS A4",
+        "expected_cents": null,
+        "billed_cents": 10000,
+        "difference_cents": null,
+        "recoverable_cents": 0,
+        "count_as_payable": true
+      }
+    },
+    {
+      "file_id": "correction",
+      "origin": "generated",
+      "before_correction": {
+        "file_id": "correction",
+        "invoice_number": "INV-12",
+        "supplier_id": "S1",
+        "po_id": "PO-S",
+        "line_findings": {},
+        "status": "unresolved",
+        "reason": "unknown_po",
+        "rule": "domain.md rule 2; DECISIONS A4",
+        "expected_cents": null,
+        "billed_cents": 31000,
+        "difference_cents": null,
+        "recoverable_cents": 0,
+        "count_as_payable": true
+      },
+      "correction": {
+        "field": "po_id",
+        "from": "PO-S",
+        "to": "PO-5"
+      },
+      "after_correction": {
+        "file_id": "correction",
+        "invoice_number": "INV-12",
+        "supplier_id": "S1",
+        "po_id": "PO-5",
+        "line_findings": {},
+        "expected_cents": 31000,
+        "billed_cents": 31000,
+        "difference_cents": 0,
+        "status": "reconciled",
+        "rule": "domain.md rule 3 and 4; DECISIONS C2, C3, C7, A1",
+        "recoverable_cents": 0,
+        "count_as_payable": true
+      }
+    },
+    {
+      "file_id": "multi-line-price",
+      "origin": "generated",
+      "before_correction": {
+        "file_id": "multi-line-price",
+        "invoice_number": "INV-10",
+        "supplier_id": "S1",
+        "po_id": "PO-3",
+        "line_findings": {
+          "ADP-2": [
+            "price_differs"
+          ]
+        },
+        "expected_cents": 26000,
+        "billed_cents": 27000,
+        "difference_cents": 1000,
+        "status": "discrepant",
+        "rule": "domain.md rule 3 and 4; DECISIONS C2, C3, C7, A1",
+        "recoverable_cents": 1000,
+        "count_as_payable": true
+      }
+    },
+    {
+      "file_id": "short-receipt",
+      "origin": "generated",
+      "before_correction": {
+        "file_id": "short-receipt",
+        "invoice_number": "INV-40",
+        "supplier_id": "S2",
+        "po_id": "PO-4",
+        "line_findings": {
+          "CAB-1": [
+            "short_receipt",
+            "qty_over_received"
+          ]
+        },
+        "expected_cents": 24300,
+        "billed_cents": 24300,
+        "difference_cents": 0,
+        "status": "discrepant",
+        "rule": "domain.md rule 3 and 4; DECISIONS C2, C3, C7, A1",
+        "recoverable_cents": 0,
+        "count_as_payable": true
+      }
+    }
+  ],
+  "summary_before_correction": {
+    "status_counts": {
+      "reconciled": 1,
+      "duplicate": 1,
+      "unresolved": 3,
+      "discrepant": 3
+    },
+    "recoverable_cents": 3000
+  },
+  "summary_after_correction": {
+    "status_counts": {
+      "reconciled": 2,
+      "duplicate": 1,
+      "unresolved": 2,
+      "discrepant": 3
+    },
+    "recoverable_cents": 3000
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "cache_key": "3fe46ff50e97af7533e9bb40e036608fecb8e67e7fbe09b6ce296da1e98c0b67",
+  "provider": "gemini",
+  "model": "gemini-2.5-flash",
+  "prompt_version": "note-v1",
+  "created_at": "2026-10-09T09:27:28.369178+00:00",
+  "payload_sha256": "286b79b4b040f7615e60dc8e009a3c772f793c6d0d9cfd44edb1c34e8479b944",
+  "payload": {
+    "billed": "$100.00",
+    "difference": null,
+    "duplicate_of": null,
+    "expected": null,
+    "findings": [
+      {
+        "code": "conflicting_reference",
+        "detail": {},
+        "line_no": null,
+        "meaning": "PO belongs to a different supplier"
+      }
+    ],
+    "invoice": {
+      "file_id": "conflicting-supplier",
+      "invoice_number": "INV-30",
+      "po_id": "PO-1",
+      "status": "unresolved",
+      "supplier_id": "S2"
+    },
+    "lines": []
+  },
+  "text": "DRAFT — Invoice INV-30 from supplier S2, referencing PO-1, has an unresolved status. The PO-1 reference could not be matched to supplier S2, as it belongs to a different supplier. Due to this conflicting reference, no expected amount was calculated for this invoice."
+}

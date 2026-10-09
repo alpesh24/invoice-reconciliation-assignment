@@ -12,9 +12,11 @@ README section "Unresolved ambiguity", which `domain.md` asks for.
 | D3 | JSON files on disk, atomic writes, no database | Small volume; reviewer can open files and read git diffs |
 | D4 | Gemini API (free tier) via `google-genai`; model ID in `.env` | No model access was provided by the hiring team; free tier covers the volume; data is fictional |
 | D5 | Replay mode as default (`MODEL_MODE=replay`), cache committed | Brief requires replay without an API key; makes results and tests reproducible |
-| D6 | Default Claude Code setup: no hooks, no subagents, no custom agents | Not needed for the task; marked `not-used` in the manifest |
+| D6 | Claude Code setup: default settings, no hooks, no MCP; two project subagents (`implementer`, `reviewer` in `.claude/agents/`) are used by the implement-test-review loop | Subagents give an independent read-only review; hooks and MCP were not needed and are marked `not-used` in the manifest. Corrected in Phase 8 (earlier text said "no subagents"; snapshot `ai-workflow/snapshots/DECISIONS.md.phase-8.md`) |
 | D7 | English for code, UI, docs and notes | Submission language |
 | D8 | Starter files moved unchanged to `data/inputs/`, treated as read-only | Clear separation of supplied vs generated data |
+| D9 | `.claude/skills/verify-reconciliation/SKILL.md` is kept unchanged and listed as `not-used` | It refers to `scripts/eval.py`, a 98% accuracy gate and ruff/mypy, which do not exist in this project; the loop never used it (user decision, Phase 8, Q-P8-2) |
+| D10 | Claude Code version 2.1.295; orchestrator model Sonnet 5.5 (`claude-sonnet-5-5`); recorded in `ai-workflow/README.md` and `manifest.json` | User-supplied facts (Phase 8, Q-P8-3). Phase 2 and 5 durations stay "not recorded" in PROGRESS.md and the README |
 
 ## Extraction
 
@@ -57,7 +59,14 @@ README section "Unresolved ambiguity", which `domain.md` asks for.
 | A8 | Matched PO line without receipt data | Finding `no_receipt`, invoice `unresolved` (received qty cannot be compared, as rule 3 requires) |
 | A9 | Negative difference (undercharge) | Shown as a difference; not part of `recoverable_cents` |
 | A10 | Same SKU twice on a PO or invoice | `ambiguous_sku` → `unresolved`; no line selection |
+| A11 | Several receipt entries for the same `(po_id, sku)`, or two POs with the same `po_id` and supplier | `ambiguous_receipt` / `ambiguous_po` → `unresolved`; receipts are never summed (user-confirmed, Phase 1) |
+| A12 | Missing/null invoice line `description` | Allowed; description is optional and does not affect validity. Supersedes the earlier Phase 1 decision "null description = invalid" (user decision, Phase 3, Q1 option a: the seed images print no description) |
+| A13 | `supplier_id` null | `missing_reference` → `unresolved`; never a duplicate, since the duplicate key needs the supplier (user-confirmed, Phase 1) |
+| A14 | `count_as_payable` is false only for duplicates; unresolved invoices keep it true | No rule in `domain.md` or the requirements makes unresolved invoices non-payable; ARCHITECTURE says only duplicates carry `false`. Unresolved invoices still never contribute to totals. Resolves Q-P7-1 (user decision, 2026-10-09). `scripts/compute_expected.py` aligned. |
+| A15 | Keep the `qty_over_received` finding (billed qty > received qty) in the expected results | Domain rule 3 compares billed qty with both ordered and received qty (user-approved, 2026-10-09) |
 
 ## Open questions
 
 _Add new questions here during implementation instead of deciding silently._
+
+_None._

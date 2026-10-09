@@ -1,1 +1,21 @@
-null
+[
+  {"file_id": "multi-line-price", "invoice_number": "INV-10", "supplier_id": "S1", "po_id": "PO-3",
+   "lines": [
+     {"sku": "CAB-1", "quantity": 10, "unit_cents": 2000, "line_total_cents": 20000},
+     {"sku": "ADP-2", "quantity": 4, "unit_cents": 1750, "line_total_cents": 7000}],
+   "total_cents": 27000, "layout": "a"},
+  {"file_id": "correction", "invoice_number": "INV-12", "supplier_id": "S1", "po_id": "PO-5",
+   "lines": [
+     {"sku": "HUB-3", "quantity": 6, "unit_cents": 4500, "line_total_cents": 27000},
+     {"sku": "CAB-1", "quantity": 2, "unit_cents": 2000, "line_total_cents": 4000}],
+   "total_cents": 31000, "layout": "b"},
+  {"file_id": "conflicting-supplier", "invoice_number": "INV-30", "supplier_id": "S2", "po_id": "PO-1",
+   "lines": [
+     {"sku": "CAB-1", "quantity": 5, "unit_cents": 2000, "line_total_cents": 10000}],
+   "total_cents": 10000, "layout": "a"},
+  {"file_id": "short-receipt", "invoice_number": "INV-40", "supplier_id": "S2", "po_id": "PO-4",
+   "lines": [
+     {"sku": "HUB-3", "quantity": 3, "unit_cents": 4500, "line_total_cents": 13500},
+     {"sku": "CAB-1", "quantity": 6, "unit_cents": 1800, "line_total_cents": 10800}],
+   "total_cents": 24300, "layout": "b"}
+]

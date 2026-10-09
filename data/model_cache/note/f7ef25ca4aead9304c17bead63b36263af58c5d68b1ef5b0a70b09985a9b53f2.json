@@ -1,0 +1,59 @@
+{
+  "cache_key": "f7ef25ca4aead9304c17bead63b36263af58c5d68b1ef5b0a70b09985a9b53f2",
+  "provider": "gemini",
+  "model": "gemini-2.5-flash",
+  "prompt_version": "note-v1",
+  "created_at": "2026-10-09T09:27:36.383936+00:00",
+  "payload_sha256": "e99a76c7083ce0c216e186c692927d49b67eb770bcf6cd357a090a740a054327",
+  "payload": {
+    "billed": "$270.00",
+    "difference": "$10.00",
+    "duplicate_of": null,
+    "expected": "$260.00",
+    "findings": [
+      {
+        "code": "price_diff",
+        "detail": {
+          "agreed_unit": "$15.00",
+          "billed_unit": "$17.50"
+        },
+        "line_no": 2,
+        "meaning": "Billed unit price differs from the agreed PO price"
+      }
+    ],
+    "invoice": {
+      "file_id": "multi-line-price",
+      "invoice_number": "INV-10",
+      "po_id": "PO-3",
+      "status": "discrepant",
+      "supplier_id": "S1"
+    },
+    "lines": [
+      {
+        "agreed_unit": "$20.00",
+        "billed": "$200.00",
+        "billed_qty": 10,
+        "billed_unit": "$20.00",
+        "difference": "$0.00",
+        "expected": "$200.00",
+        "line_no": 1,
+        "ordered_qty": 10,
+        "received_qty": 10,
+        "sku": "CAB-1"
+      },
+      {
+        "agreed_unit": "$15.00",
+        "billed": "$70.00",
+        "billed_qty": 4,
+        "billed_unit": "$17.50",
+        "difference": "$10.00",
+        "expected": "$60.00",
+        "line_no": 2,
+        "ordered_qty": 4,
+        "received_qty": 4,
+        "sku": "ADP-2"
+      }
+    ]
+  },
+  "text": "DRAFT — Invoice INV-10 from supplier S1 for PO PO-3 has a status of discrepant. The total billed amount is $270.00, while the expected amount is $260.00, resulting in a total difference of $10.00. A difference to review exists on line 2. The billed unit price of $17.50 differs from the agreed PO price of $15.00 on this line."
+}
